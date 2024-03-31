@@ -8,15 +8,15 @@ terraform {
 }
 
 provider "google" {
-  credentials = "keys/my-creds.json"
-  project     = "dtc-dez-418818"
-  region      = "asia-southeast1"
+  credentials = file(var.credentials)
+  project     = var.project
+  region      = var.region
 }
 
 
-resource "google_storage_bucket" "demo-bucket" {
-  name          = "dtc-dez-418818-terra-bucket"
-  location      = "asia-southeast1"
+resource "google_storage_bucket" "demo_bucket" {
+  name          = var.gcs_bucket_name
+  location      = var.location
   force_destroy = true
 
   lifecycle_rule {
@@ -29,7 +29,7 @@ resource "google_storage_bucket" "demo-bucket" {
   }
 }
 
-resource "google_bigquery_dataset" "demo-dataset" {
-  dataset_id = "demo_dataset"
-  location   = "asia-southeast1"
+resource "google_bigquery_dataset" "demo_dataset" {
+  dataset_id = var.bq_dataset_name
+  location   = var.location
 }
